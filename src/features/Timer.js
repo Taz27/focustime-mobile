@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Vibration } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -18,20 +18,30 @@ const PATTERN = [
   1 * ONE_SECOND_IN_MS
 ];
 
-export const Timer = ({ focusSubject, clearSubject, onTimerEnd }) => {
+const minutesToMillis = (min) => min * 1000 * 60;
+
+export const Timer = ({ focusSubject, clearSubject, setHistory }) => {
   useKeepAwake();
   
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
   const [minutes, setMinutes] = useState(0.1);
+  const [millis, setMillis] = useState(null);
+  const [hasTimerEnded, setHasTimerEnded] = useState(false);
 
-  const onEnd = (reset) => {
+  const onEnd = () => {
     Vibration.vibrate(PATTERN);
+    setMillis(minutesToMillis(minutes));
     setIsStarted(false);
     setProgress(1);
-    reset();
-    onTimerEnd(focusSubject);
+    setHasTimerEnded(true);
   };
+
+  useEffect(() => {
+    if (hasTimerEnded) {
+      setHistory(prev => [...prev, focusSubject]);
+    } 
+  }, [hasTimerEnded]);
 
   return (
     <View style={styles.container}>
@@ -41,6 +51,9 @@ export const Timer = ({ focusSubject, clearSubject, onTimerEnd }) => {
           isPaused={!isStarted} 
           onEnd={onEnd} 
           onProgress={setProgress} 
+          millis={millis}
+          setMillis={setMillis}
+          minutesToMillis={minutesToMillis}
         />
         <View style={{ paddingTop: spacing.xxl}}>
           <Text style={styles.title}>Focussing On:</Text>
