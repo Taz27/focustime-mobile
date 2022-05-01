@@ -40,8 +40,5 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    // borderStyle: 'solid',
-    // borderWidth: 1,
-    // borderColor: 'red',
   },
 });
