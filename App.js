@@ -5,6 +5,7 @@ import { colors } from './src/utils/colors';
 import { Focus } from './src/features/Focus';
 import { FocusHistory } from './src/features/FocusHistory';
 import { Timer } from './src/features/Timer';
+import { CodedBy } from './src/components/CodedBy';
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <>
           <Focus addSubject={setCurrentSubject} />
           <FocusHistory history={history} />
+          <CodedBy />
         </>
       ) : (
         <Timer
