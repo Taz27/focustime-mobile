@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     // flex: 0.5,
     padding: spacing.lg,
-    justifyContent: 'start',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     // borderStyle: 'solid',
     // borderWidth: 1,
